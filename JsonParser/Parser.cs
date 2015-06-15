@@ -4,7 +4,7 @@ namespace JsonParser
 {
     internal class Parser
     {
-        public static Func<string, object> CreateJsonParser()
+        public static Func<string, object> GetJsonParser()
         {
             return null;
         }
