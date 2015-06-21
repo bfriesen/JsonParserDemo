@@ -2,7 +2,7 @@
 
 namespace JsonParser
 {
-    public class Json
+    public static class Json
     {
         private static readonly Func<string, dynamic> _parse = Parser.GetJsonParser();
 
