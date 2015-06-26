@@ -104,5 +104,19 @@ namespace JsonParser.Tests
             Assert.That(result.foo, Is.True);
             Assert.That(result.bar, Is.False);
         }
+
+        [Test]
+        public void ObjectWithObjectMembersReturnsExpandoObject()
+        {
+            var json = "{\"foo\":{\"qux\":null},\"bar\":{\"corge\":false}}";
+
+            var result = Json.Parse(json);
+
+            Assert.That(result, Is.InstanceOf<ExpandoObject>());
+            var d = (IDictionary<string, object>)result;
+            Assert.That(d.Count, Is.EqualTo(2));
+            Assert.That(result.foo.qux, Is.Null);
+            Assert.That(result.bar.corge, Is.False);
+        }
     }
 }
