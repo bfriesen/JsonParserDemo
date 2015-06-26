@@ -36,23 +36,28 @@ namespace JsonParser
 
             var objectParser =
                 from openCurly in Parse.Char('{')
-                from member in memberParser.Optional()
-
+                from first in memberParser.Optional()
+                from rest in
+                    (from comma in Parse.Char(',')
+                     from member in memberParser
+                     select member).Many()
                 from closeCurly in Parse.Char('}')
-                select GetExpandoObject(member.GetOrDefault());
+                select GetExpandoObject(first.GetOrDefault(), rest);
 
             return objectParser;
         }
 
-        private static ExpandoObject GetExpandoObject(Member member)
+        private static ExpandoObject GetExpandoObject(
+            Member first,
+            IEnumerable<Member> rest)
         {
             var expandoObject = new ExpandoObject();
 
             var d = (IDictionary<string, object>)expandoObject;
 
-            if (member != null)
+            if (first != null)
             {
-                d.Add(member.Name, member.Value);
+                d.Add(first.Name, first.Value);
             }
 
             return expandoObject;
