@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Dynamic;
+using System.Linq;
 using NUnit.Framework;
 
 namespace JsonParser.Tests
@@ -153,6 +154,34 @@ namespace JsonParser.Tests
 
             Assert.That(result, Is.InstanceOf<object[]>());
             Assert.That(result.Length, Is.EqualTo(2));
+            Assert.That(result[0][0], Is.True);
+            Assert.That(result[1][0], Is.False);
+        }
+
+        [Test, Ignore]
+        public void InsiginificantWhitespaceIsIgnored()
+        {
+            var json = @"
+
+  {
+       ""foo""    :  true
+     ,
+       ""bar""    :  [ null
+    , ""wtf""
+]
+    }
+
+
+";
+
+            var result = Json.Parse(json);
+
+            Assert.That(result, Is.InstanceOf<ExpandoObject>());
+            var d = (IDictionary<string, object>)result;
+            Assert.That(d.Count, Is.EqualTo(2));
+
+            Assert.That(result.foo, Is.True);
+            Assert.That(result.bar, Is.EqualTo("wtf"));
             Assert.That(result[0][0], Is.True);
             Assert.That(result[1][0], Is.False);
         }
