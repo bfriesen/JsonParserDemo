@@ -25,13 +25,13 @@ namespace JsonParser
         private static Parser<object> GetArrayParser(MainParser mainParser)
         {
             return 
-                from openSquare in Parse.Char('[')
+                from openSquare in Parse.Char('[').Token()
                 from first in Parse.Ref(() => mainParser.Value).Optional()
                 from rest in
-                    (from comman in Parse.Char(',')
+                    (from comman in Parse.Char(',').Token()
                      from value in Parse.Ref(() => mainParser.Value)
                      select value).Many()
-                from closeSquare in Parse.Char(']')
+                from closeSquare in Parse.Char(']').Token()
                 select GetObjectArray(first.GetOrDefault(), rest);
         }
 
@@ -52,18 +52,18 @@ namespace JsonParser
         {
             var memberParser =
                 from name in stringParser
-                from colon in Parse.Char(':')
+                from colon in Parse.Char(':').Token()
                 from value in Parse.Ref(() => mainParser.Value)
                 select new Member { Name = name, Value = value };
 
             var objectParser =
-                from openCurly in Parse.Char('{')
+                from openCurly in Parse.Char('{').Token()
                 from first in memberParser.Optional()
                 from rest in
-                    (from comma in Parse.Char(',')
+                    (from comma in Parse.Char(',').Token()
                      from member in memberParser
                      select member).Many()
-                from closeCurly in Parse.Char('}')
+                from closeCurly in Parse.Char('}').Token()
                 select GetExpandoObject(first.GetOrDefault(), rest);
 
             return objectParser;
