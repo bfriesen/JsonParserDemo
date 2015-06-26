@@ -37,6 +37,7 @@ namespace JsonParser
             var objectParser =
                 from openCurly in Parse.Char('{')
                 from member in memberParser.Optional()
+
                 from closeCurly in Parse.Char('}')
                 select GetExpandoObject(member.GetOrDefault());
 
