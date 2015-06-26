@@ -158,7 +158,7 @@ namespace JsonParser.Tests
             Assert.That(result[1][0], Is.False);
         }
 
-        [Test, Ignore]
+        [Test]
         public void InsiginificantWhitespaceIsIgnored()
         {
             var json = @"
@@ -166,9 +166,7 @@ namespace JsonParser.Tests
   {
        ""foo""    :  true
      ,
-       ""bar""    :  [ null
-    , ""wtf""
-]
+       ""bar""    : null
     }
 
 
@@ -181,9 +179,7 @@ namespace JsonParser.Tests
             Assert.That(d.Count, Is.EqualTo(2));
 
             Assert.That(result.foo, Is.True);
-            Assert.That(result.bar, Is.EqualTo("wtf"));
-            Assert.That(result[0][0], Is.True);
-            Assert.That(result[1][0], Is.False);
+            Assert.That(result.bar, Is.Null);
         }
     }
 }
