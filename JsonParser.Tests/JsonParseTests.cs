@@ -13,5 +13,25 @@ namespace JsonParser.Tests
 
             Assert.That(result, Is.True);
         }
+
+        [Test, Ignore]
+        public void FalseReturnsFalse()
+        {
+            var json = "false";
+
+            var result = Json.Parse(json);
+
+            Assert.That(result, Is.False);
+        }
+
+        [Test, Ignore]
+        public void NullReturnsNull()
+        {
+            var json = "null";
+
+            var result = Json.Parse(json);
+
+            Assert.That(result, Is.Null);
+        }
     }
 }
