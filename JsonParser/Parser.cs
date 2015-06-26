@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Dynamic;
 using Sprache;
 
@@ -44,7 +45,16 @@ namespace JsonParser
 
         private static ExpandoObject GetExpandoObject(Member member)
         {
-            return new ExpandoObject();
+            var expandoObject = new ExpandoObject();
+
+            var d = (IDictionary<string, object>)expandoObject;
+
+            if (member != null)
+            {
+                d.Add(member.Name, member.Value);
+            }
+
+            return expandoObject;
         }
 
         private class Member
