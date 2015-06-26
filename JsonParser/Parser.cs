@@ -22,9 +22,14 @@ namespace JsonParser
                 from quote in Parse.Char('"')
                 select quote;
 
+            var escapedBackslashParser =
+                from backslash in Parse.Char('\\')
+                from secondBackslash in Parse.Char('\\')
+                select backslash;
+
             return
                 from openQuote in Parse.Char('"')
-                from value in escapedQuoteParser.Or(Parse.CharExcept('"')).Many().Text()
+                from value in escapedBackslashParser.Or(escapedQuoteParser).Or(Parse.CharExcept('"')).Many().Text()
                 from closeQuote in Parse.Char('"')
                 select value;
         }
