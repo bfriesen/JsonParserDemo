@@ -90,5 +90,19 @@ namespace JsonParser.Tests
             Assert.That(d.Count, Is.EqualTo(1));
             Assert.That(result.foo, Is.True);
         }
+
+        [Test, Ignore]
+        public void ObjectWithMultiplePrimitiveMemberReturnsExpandoObject()
+        {
+            var json = "{\"foo\":true, \"bar\":false}";
+
+            var result = Json.Parse(json);
+
+            Assert.That(result, Is.InstanceOf<ExpandoObject>());
+            var d = (IDictionary<string, object>)result;
+            Assert.That(d.Count, Is.EqualTo(2));
+            Assert.That(result.foo, Is.True);
+            Assert.That(result.bar, Is.False);
+        }
     }
 }
