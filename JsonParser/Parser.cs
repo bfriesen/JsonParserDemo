@@ -27,6 +27,12 @@ namespace JsonParser
             return objectParser;
         }
 
+        private class KeyValue
+        {
+            public string Name;
+            public object Value;
+        }
+
         private static Parser<object> GetStringParser()
         {
             var escapedQuoteParser =
