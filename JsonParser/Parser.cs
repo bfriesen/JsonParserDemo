@@ -8,17 +8,31 @@ namespace JsonParser
     {
         public static Func<string, object> GetJsonParser()
         {
+            var mainParser = new MainParser();
+
             var literalParser = GetLiteralParser();
             var stringParser = GetStringParser();
-            var objectParser = GetObjectParser();
+            var objectParser = GetObjectParser(stringParser, mainParser);
 
-            var mainParser = literalParser.Or(stringParser).Or(objectParser);
+            mainParser.Value = literalParser.Or(stringParser).Or(objectParser);
 
-            return mainParser.Parse;
+            return mainParser.Value.Parse;
         }
 
-        private static Parser<object> GetObjectParser()
+        private class MainParser
         {
+            public Parser<object> Value;
+        }
+
+        private static Parser<object> GetObjectParser(
+            Parser<string> stringParser, MainParser mainParser)
+        {
+            var memberParser =
+                from name in stringParser
+                from colon in Parse.Char(':')
+                from value in Parse.Ref(() => mainParser.Value)
+                select new Member { Name = name, Value = value };
+
             var objectParser =
                 from openCurly in Parse.Char('{')
                 from closeCurly in Parse.Char('}')
@@ -33,7 +47,7 @@ namespace JsonParser
             public object Value;
         }
 
-        private static Parser<object> GetStringParser()
+        private static Parser<string> GetStringParser()
         {
             var escapedQuoteParser =
                 from backslash in Parse.Char('\\')
