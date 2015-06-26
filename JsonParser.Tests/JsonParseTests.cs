@@ -118,5 +118,16 @@ namespace JsonParser.Tests
             Assert.That(result.foo.qux, Is.Null);
             Assert.That(result.bar.corge, Is.False);
         }
+
+        [Test, Ignore]
+        public void EmptyArrayReturnsObjectArray()
+        {
+            var json = "[]";
+
+            var result = Json.Parse(json);
+
+            Assert.That(result, Is.InstanceOf<object[]>());
+            Assert.That(result, Is.Empty);
+        }
     }
 }
