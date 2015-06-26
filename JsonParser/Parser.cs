@@ -1,4 +1,5 @@
 ﻿using System;
+using Sprache;
 
 namespace JsonParser
 {
@@ -6,7 +7,22 @@ namespace JsonParser
     {
         public static Func<string, object> GetJsonParser()
         {
-            return null;
+            var literalParser = GetLiteralParser();
+
+            var mainParser = literalParser;
+
+            return mainParser.Parse;
+        }
+
+        private static Parser<object> GetLiteralParser()
+        {
+            var trueParser =
+                from t in Parse.String("true")
+                select (object)true;
+
+            var literalParser = trueParser;
+
+            return literalParser;
         }
     }
 }
