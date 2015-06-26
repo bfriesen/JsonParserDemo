@@ -119,7 +119,7 @@ namespace JsonParser.Tests
             Assert.That(result.bar.corge, Is.False);
         }
 
-        [Test, Ignore]
+        [Test]
         public void EmptyArrayReturnsObjectArray()
         {
             var json = "[]";
