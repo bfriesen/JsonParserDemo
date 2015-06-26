@@ -14,10 +14,19 @@ namespace JsonParser
             var literalParser = GetLiteralParser();
             var stringParser = GetStringParser();
             var objectParser = GetObjectParser(stringParser, mainParser);
+            var arrayParser = GetArrayParser(mainParser);
 
-            mainParser.Value = literalParser.Or(stringParser).Or(objectParser);
+            mainParser.Value = literalParser.Or(stringParser).Or(objectParser).Or(arrayParser);
 
             return mainParser.Value.Parse;
+        }
+
+        private static Parser<object> GetArrayParser(MainParser mainParser)
+        {
+            return 
+                from openSquare in Parse.Char('[')
+                from closeSquare in Parse.Char(']')
+                select new object[0];
         }
 
         private class MainParser
