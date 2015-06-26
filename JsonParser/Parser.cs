@@ -17,9 +17,14 @@ namespace JsonParser
 
         private static Parser<object> GetStringParser()
         {
+            var escapedQuoteParser =
+                from backslash in Parse.Char('\\')
+                from quote in Parse.Char('"')
+                select quote;
+
             return
                 from openQuote in Parse.Char('"')
-                from value in Parse.CharExcept('"').Many().Text()
+                from value in escapedQuoteParser.Or(Parse.CharExcept('"')).Many().Text()
                 from closeQuote in Parse.Char('"')
                 select value;
         }

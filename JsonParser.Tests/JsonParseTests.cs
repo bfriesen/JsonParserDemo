@@ -44,7 +44,7 @@ namespace JsonParser.Tests
             Assert.That(result, Is.EqualTo("Hello, world!"));
         }
 
-        [Test, Ignore]
+        [Test]
         public void StringWithEscapedQuoteSequencesReturnsString()
         {
             var json = "\"\\\"Ow.\\\" - my pancreas\"";
