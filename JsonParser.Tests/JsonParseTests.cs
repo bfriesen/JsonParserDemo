@@ -51,7 +51,7 @@ namespace JsonParser.Tests
 
             var result = Json.Parse(json);
 
-            Assert.That(result, Is.EqualTo("\"Ow\" - my pancreas"));
+            Assert.That(result, Is.EqualTo("\"Ow.\" - my pancreas"));
         }
     }
 }
