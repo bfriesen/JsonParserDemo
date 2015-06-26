@@ -66,7 +66,7 @@ namespace JsonParser.Tests
             Assert.That(result, Is.EqualTo("c:\\temp\\file.txt"));
         }
 
-        [Test, Ignore]
+        [Test]
         public void EmptyObjectReturnsExpandoObject()
         {
             var json = "{}";
