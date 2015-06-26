@@ -129,5 +129,19 @@ namespace JsonParser.Tests
             Assert.That(result, Is.InstanceOf<object[]>());
             Assert.That(result, Is.Empty);
         }
+
+        [Test]
+        public void ArrayWithPrimitivesReturnsObjectArray()
+        {
+            var json = "[true,false,\"File not found\"]";
+
+            var result = Json.Parse(json);
+
+            Assert.That(result, Is.InstanceOf<object[]>());
+            Assert.That(result.Length, Is.EqualTo(3));
+            Assert.That(result[0], Is.True);
+            Assert.That(result[1], Is.False);
+            Assert.That(result[2], Is.EqualTo("File not found"));
+        }
     }
 }

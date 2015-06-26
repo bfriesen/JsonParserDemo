@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Dynamic;
+using System.Linq;
 using Sprache;
 
 namespace JsonParser
@@ -25,8 +26,20 @@ namespace JsonParser
         {
             return 
                 from openSquare in Parse.Char('[')
+                from first in Parse.Ref(() => mainParser.Value).Optional()
+                from rest in
+                    (from comman in Parse.Char(',')
+                     from value in Parse.Ref(() => mainParser.Value)
+                     select value).Many()
                 from closeSquare in Parse.Char(']')
-                select new object[0];
+                select GetObjectArray(first.GetOrDefault(), rest);
+        }
+
+        private static object[] GetObjectArray(object first, IEnumerable<object> rest)
+        {
+            return
+                (first == null ? new object[0] : new[] { first })
+                    .Concat(rest).ToArray();
         }
 
         private class MainParser
