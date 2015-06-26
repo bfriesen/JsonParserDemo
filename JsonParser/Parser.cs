@@ -8,10 +8,20 @@ namespace JsonParser
         public static Func<string, object> GetJsonParser()
         {
             var literalParser = GetLiteralParser();
+            var stringParser = GetStringParser();
 
-            var mainParser = literalParser;
+            var mainParser = literalParser.Or(stringParser);
 
             return mainParser.Parse;
+        }
+
+        private static Parser<object> GetStringParser()
+        {
+            return
+                from openQuote in Parse.Char('"')
+                from value in Parse.CharExcept('"').Many().Text()
+                from closeQuote in Parse.Char('"')
+                select value;
         }
 
         private static Parser<object> GetLiteralParser()
