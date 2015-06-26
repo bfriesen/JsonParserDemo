@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Dynamic;
 using Sprache;
 
 namespace JsonParser
@@ -9,10 +10,21 @@ namespace JsonParser
         {
             var literalParser = GetLiteralParser();
             var stringParser = GetStringParser();
+            var objectParser = GetObjectParser();
 
-            var mainParser = literalParser.Or(stringParser);
+            var mainParser = literalParser.Or(stringParser).Or(objectParser);
 
             return mainParser.Parse;
+        }
+
+        private static Parser<object> GetObjectParser()
+        {
+            var objectParser =
+                from openCurly in Parse.Char('{')
+                from closeCurly in Parse.Char('}')
+                select new ExpandoObject();
+
+            return objectParser;
         }
 
         private static Parser<object> GetStringParser()
