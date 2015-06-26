@@ -91,7 +91,7 @@ namespace JsonParser.Tests
             Assert.That(result.foo, Is.True);
         }
 
-        [Test, Ignore]
+        [Test]
         public void ObjectWithMultiplePrimitiveMemberReturnsExpandoObject()
         {
             var json = "{\"foo\":true, \"bar\":false}";

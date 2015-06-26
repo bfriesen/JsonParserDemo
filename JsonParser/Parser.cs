@@ -60,6 +60,11 @@ namespace JsonParser
                 d.Add(first.Name, first.Value);
             }
 
+            foreach (var member in rest)
+            {
+                d.Add(member.Name, member.Value);
+            }
+
             return expandoObject;
         }
 
