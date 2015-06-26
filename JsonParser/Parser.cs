@@ -27,7 +27,7 @@ namespace JsonParser
             return objectParser;
         }
 
-        private class KeyValue
+        private class Member
         {
             public string Name;
             public object Value;
