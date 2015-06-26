@@ -78,7 +78,7 @@ namespace JsonParser.Tests
             Assert.That(d.Count, Is.EqualTo(0));
         }
 
-        [Test, Ignore]
+        [Test]
         public void ObjectWithSinglePrimitiveMemberReturnsExpandoObject()
         {
             var json = "{\"foo\":true}";
