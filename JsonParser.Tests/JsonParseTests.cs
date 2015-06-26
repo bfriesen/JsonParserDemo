@@ -94,7 +94,7 @@ namespace JsonParser.Tests
         [Test]
         public void ObjectWithMultiplePrimitiveMemberReturnsExpandoObject()
         {
-            var json = "{\"foo\":true, \"bar\":false}";
+            var json = "{\"foo\":true,\"bar\":false}";
 
             var result = Json.Parse(json);
 
